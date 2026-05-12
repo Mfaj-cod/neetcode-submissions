@@ -1,0 +1,18 @@
+class Solution:
+    def searchInsert(self, nums: List[int], target: int) -> int:
+        would_be = 0
+        l, r = 0, len(nums) - 1
+
+        while l <= r:
+            m = l + (r - l) // 2
+
+            if nums[m] == target:
+                return m
+            elif nums[m] > target:
+                r = m - 1
+                would_be = r
+            else:
+                l = m + 1
+                would_be = l
+
+        return would_be if would_be >= 0 else 0
