@@ -1,0 +1,30 @@
+class MedianFinder:
+
+    def __init__(self):
+        # two heaps, large(minheap) and small(maxheap) and should be equal size
+        self.large, self.small = [], []
+
+    def addNum(self, num: int) -> None:
+        heapq.heappush(self.small, -1 * num) #mult by -1 to implement maxheap
+
+        # evry num small <= evry num large
+        if (self.small and self.large and (-1 *self.small[0]) > self.large[0]):
+            val = -1 * heapq.heappop(self.small)
+            heapq.heappush(self.large, val)
+
+        # uneven size?
+        if len(self.small) > len(self.large) + 1:
+            val = -1 * heapq.heappop(self.small)
+            heapq.heappush(self.large, val)
+
+        if len(self.large) > len(self.small) + 1:
+            val = heapq.heappop(self.large)
+            heapq.heappush(self.small, (-1 * val))
+
+    def findMedian(self) -> float:
+        if len(self.small) > len(self.large):
+            return -1 * self.small[0]
+        elif len(self.small) < len(self.large):
+            return self.large[0]
+        else:
+            return ((-1 * self.small[0]) + self.large[0]) / 2
